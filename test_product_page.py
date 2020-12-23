@@ -1,6 +1,6 @@
 from pages.product_page import ProductPage
 import pytest
-import time
+
 
 # помечаем тест №7 (тест с набором параметров 7) как условно пройденый
 @pytest.mark.parametrize('num', ['0', '1', '2', '3', '4', '5', '6', pytest.param('7', marks=pytest.mark.xfail),
