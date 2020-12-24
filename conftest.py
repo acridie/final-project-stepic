@@ -35,7 +35,9 @@ def browser(request):
     else:
         raise pytest.UsageError('--browser_name should be chrome or firefox')
     browser.set_window_size(1920, 1080)
-    browser.implicitly_wait(10)
+    # неявное ожидаение. Если элемент не найден сразу, то в теч. 10сек будет проверять каждые 0.5сек
+    # объявлен в конструкторе класса BasePage, поэтому здесь смысла нет от него
+    # browser.implicitly_wait(10)
     yield browser
     print('\n closing browser...')
     browser.quit()
