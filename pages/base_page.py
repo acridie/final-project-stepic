@@ -3,6 +3,7 @@ import math
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from .locators import BasePageLocators
 
 
 class BasePage:
@@ -14,6 +15,14 @@ class BasePage:
     def open(self):  # метод открытия страниц
         self.browser.get(self.url)
 
+    def should_be_login_link(self):
+        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
+
+    def go_to_login_page(self):
+        # * говорит о том, что мы передаем кортеж (пару) значений и его нужно распаковать соотв. образом
+        login_link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
+        login_link.click()
+
     def is_element_present(self, how, what):  # метод проверки наличия элемента на страницах
         try:
             self.browser.find_element(how, what)
@@ -21,7 +30,7 @@ class BasePage:
             return False
         return True
 
-    def solve_quiz_and_get_code(self):
+    def solve_quiz_and_get_code(self):  # прохождение капчи
         alert = self.browser.switch_to.alert
         x = alert.text.split(" ")[2]
         answer = str(math.log(abs((12 * math.sin(float(x))))))
